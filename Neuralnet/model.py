@@ -17,3 +17,13 @@ class Sequential:
             output = layer.forward(output)
 
         return output
+
+    def backward(self, dvalues):
+
+        for layer in reversed(self.layers):
+
+            dvalues = layer.backward(dvalues)
+
+    def predict(self, X):
+
+        return self.forward(X)
