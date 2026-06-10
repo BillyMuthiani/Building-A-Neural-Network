@@ -8,6 +8,7 @@ from Neuralnet.activations import Tanh
 from Neuralnet.losses import BinaryCrossEntropy
 from Neuralnet.metrics import Accuracy
 from Neuralnet.optimizers import SGD
+from Neuralnet.optimizers import Adam
 
 from Neuralnet.model import Sequential
 
@@ -39,8 +40,8 @@ model.add(Sigmoid())
 loss = BinaryCrossEntropy()
 metric = Accuracy()
 
-optimizer = SGD(
-    learning_rate=0.1
+optimizer = Adam(
+    learning_rate=0.001
 )
 
 model.fit(
@@ -48,7 +49,7 @@ model.fit(
     y,
     loss,
     optimizer,
-    epochs=20000,
+    epochs=5000,
     metric=metric
 )
 

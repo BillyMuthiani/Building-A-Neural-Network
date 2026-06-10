@@ -65,3 +65,53 @@ class BinaryCrossEntropy:
             ((1 - y_true)
              / (1 - y_pred))
         ) / samples
+    
+class CategoricalCrossEntropy:
+
+    def forward(
+        self,
+        y_true,
+        y_pred
+    ):
+
+        samples = len(y_pred)
+
+        y_pred = np.clip(
+            y_pred,
+            1e-7,
+            1 - 1e-7
+        )
+
+        correct_confidences = (
+            y_pred[
+                range(samples),
+                y_true
+            ]
+        )
+
+        return -np.mean(
+            np.log(
+                correct_confidences
+            )
+        )
+
+    def backward(
+        self,
+        y_true,
+        y_pred
+    ):
+
+        samples = len(y_pred)
+
+        labels = len(
+            y_pred[0]
+        )
+
+        y_true = np.eye(
+            labels
+        )[y_true]
+
+        return (
+            -y_true
+            / y_pred
+        ) / samples
