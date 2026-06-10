@@ -3,8 +3,10 @@ import numpy as np
 from Neuralnet.layers import Dense
 from Neuralnet.activations import ReLU
 from Neuralnet.activations import Sigmoid
+from Neuralnet.activations import Tanh
 
-from Neuralnet.losses import MSE
+from Neuralnet.losses import BinaryCrossEntropy
+from Neuralnet.metrics import Accuracy
 from Neuralnet.optimizers import SGD
 
 from Neuralnet.model import Sequential
@@ -27,14 +29,15 @@ y = np.array([
 
 model = Sequential()
 
-model.add(Dense(2,4))
-model.add(ReLU())
+model.add(Dense(2,8))
+model.add(Tanh())
 
-model.add(Dense(4,1))
+model.add(Dense(8,1))
 model.add(Sigmoid())
 
 
-loss = MSE()
+loss = BinaryCrossEntropy()
+metric = Accuracy()
 
 optimizer = SGD(
     learning_rate=0.1
@@ -45,7 +48,8 @@ model.fit(
     y,
     loss,
     optimizer,
-    epochs=5000
+    epochs=20000,
+    metric=metric
 )
 
 predictions = model.predict(X)

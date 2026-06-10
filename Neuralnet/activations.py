@@ -41,3 +41,18 @@ class Sigmoid:
         )
 
         return self.dinputs
+    
+class Tanh:
+
+    def forward(self, X):
+
+        self.output = np.tanh(X)
+
+        return self.output
+
+    def backward(self, dvalues):
+
+        return (
+            dvalues *
+            (1 - self.output**2)
+        )
