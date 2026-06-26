@@ -89,7 +89,9 @@ class Sequential:
         epochs=1000,
         loss=None,
         optimizer=None,
-        metric=None
+        metric=None,
+        batch_size=None,
+        shuffle=True
     ):
 
         if loss is not None or optimizer is not None or metric is not None:
@@ -113,41 +115,71 @@ class Sequential:
 
         history = History()
 
+        samples = len(X)
+
+        batch_size = batch_size if batch_size is not None else samples
+
         for epoch in range(epochs):
 
-            predictions = self.forward(X)
+            epoch_loss = 0.0
+            epoch_accuracy = 0.0
+            num_batches = 0
 
-            loss_value = self.loss_function.forward(
-                y,
-                predictions
-            )
+            if shuffle:
+                indices = np.random.permutation(samples)
+                X_shuffled = X[indices]
+                y_shuffled = y[indices]
+            else:
+                X_shuffled = X
+                y_shuffled = y
 
-            history.loss.append(loss_value)
+            for start_idx in range(0, samples, batch_size):
 
-            dloss = self.loss_function.backward(
-                y,
-                predictions
-            )
+                end_idx = min(start_idx + batch_size, samples)
+                X_batch = X_shuffled[start_idx:end_idx]
+                y_batch = y_shuffled[start_idx:end_idx]
 
-            self.backward(dloss)
+                predictions = self.forward(X_batch)
 
-            for layer in self.layers:
-                self.optimizer.update(layer)
-
-            if self.metric:
-
-                score = self.metric.calculate(
-                    y,
+                loss_value = self.loss_function.forward(
+                    y_batch,
                     predictions
                 )
 
-                history.accuracy.append(score)
+                epoch_loss += loss_value
+                num_batches += 1
+
+                dloss = self.loss_function.backward(
+                    y_batch,
+                    predictions
+                )
+
+                self.backward(dloss)
+
+                for layer in self.layers:
+                    self.optimizer.update(layer)
+
+                if self.metric:
+
+                    score = self.metric.calculate(
+                        y_batch,
+                        predictions
+                    )
+                    epoch_accuracy += score
+
+            avg_loss = epoch_loss / num_batches
+
+            history.loss.append(avg_loss)
+
+            if self.metric:
+                avg_accuracy = epoch_accuracy / num_batches
+                history.accuracy.append(avg_accuracy)
 
                 if epoch % 100 == 0:
                     print(
                         f"Epoch {epoch} "
-                        f"Loss: {loss_value:.6f} "
-                        f"Accuracy: {score:.4f}"
+                        f"Loss: {avg_loss:.6f} "
+                        f"Accuracy: {avg_accuracy:.4f}"
                     )
 
             else:
@@ -155,7 +187,7 @@ class Sequential:
                 if epoch % 100 == 0:
                     print(
                         f"Epoch {epoch} "
-                        f"Loss: {loss_value:.6f}"
+                        f"Loss: {avg_loss:.6f}"
                     )
 
         return history

@@ -5,6 +5,7 @@ from Neuralnet.optimizers import SGD, Adam
 from Neuralnet.metrics import Accuracy
 from Neuralnet.model import Sequential, History
 from Neuralnet.exceptions import NeuralnetError, ConfigurationError, NotCompiledError, ShapeError, OptimizerError
+from Neuralnet.initializers import he_normal, xavier_uniform, lecun_normal
 
 __version__ = "0.6.0"
 
@@ -27,5 +28,8 @@ __all__ = [
     "NotCompiledError",
     "ShapeError",
     "OptimizerError",
+    "he_normal",
+    "xavier_uniform",
+    "lecun_normal",
     "__version__",
 ]
