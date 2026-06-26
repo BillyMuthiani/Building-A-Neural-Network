@@ -21,9 +21,10 @@ class Dense:
         self.weights = init_func(input_size, output_size)
         self.biases = np.zeros((1, output_size))
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
-        self.input = X
+        if training:
+            self.input = X
 
         return np.dot(X, self.weights) + self.biases
 

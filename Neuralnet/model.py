@@ -10,12 +10,18 @@ class History:
     def __init__(self):
         self.loss = []
         self.accuracy = []
+        self.val_loss = []
+        self.val_accuracy = []
 
     def __getitem__(self, key):
         if key == "loss":
             return self.loss
         elif key == "accuracy":
             return self.accuracy
+        elif key == "val_loss":
+            return self.val_loss
+        elif key == "val_accuracy":
+            return self.val_accuracy
         raise KeyError(key)
 
     def __setitem__(self, key, value):
@@ -23,11 +29,20 @@ class History:
             self.loss = value
         elif key == "accuracy":
             self.accuracy = value
+        elif key == "val_loss":
+            self.val_loss = value
+        elif key == "val_accuracy":
+            self.val_accuracy = value
         else:
             raise KeyError(key)
 
     def items(self):
-        return [("loss", self.loss), ("accuracy", self.accuracy)]
+        return [
+            ("loss", self.loss),
+            ("accuracy", self.accuracy),
+            ("val_loss", self.val_loss),
+            ("val_accuracy", self.val_accuracy),
+        ]
 
 
 class Sequential:
@@ -43,12 +58,12 @@ class Sequential:
 
         self.layers.append(layer)
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
         output = X
 
         for layer in self.layers:
-            output = layer.forward(output)
+            output = layer.forward(output, training=training)
 
         return output
 
@@ -59,7 +74,7 @@ class Sequential:
 
     def predict(self, X):
 
-        return self.forward(X)
+        return self.forward(X, training=False)
 
     def compile(
         self,
@@ -91,7 +106,8 @@ class Sequential:
         optimizer=None,
         metric=None,
         batch_size=None,
-        shuffle=True
+        shuffle=True,
+        validation_data=None
     ):
 
         if loss is not None or optimizer is not None or metric is not None:
@@ -139,7 +155,7 @@ class Sequential:
                 X_batch = X_shuffled[start_idx:end_idx]
                 y_batch = y_shuffled[start_idx:end_idx]
 
-                predictions = self.forward(X_batch)
+                predictions = self.forward(X_batch, training=True)
 
                 loss_value = self.loss_function.forward(
                     y_batch,
@@ -175,19 +191,31 @@ class Sequential:
                 avg_accuracy = epoch_accuracy / num_batches
                 history.accuracy.append(avg_accuracy)
 
-                if epoch % 100 == 0:
-                    print(
+            if validation_data is not None:
+
+                X_val, y_val = validation_data
+                val_predictions = self.forward(X_val, training=False)
+                val_loss = self.loss_function.forward(y_val, val_predictions)
+                history.val_loss.append(val_loss)
+
+                if self.metric:
+                    val_accuracy = self.metric.calculate(y_val, val_predictions)
+                    history.val_accuracy.append(val_accuracy)
+
+            if epoch % 100 == 0:
+                if self.metric:
+                    msg = (
                         f"Epoch {epoch} "
                         f"Loss: {avg_loss:.6f} "
                         f"Accuracy: {avg_accuracy:.4f}"
                     )
-
-            else:
-
-                if epoch % 100 == 0:
-                    print(
-                        f"Epoch {epoch} "
-                        f"Loss: {avg_loss:.6f}"
-                    )
+                    if validation_data is not None:
+                        msg += (
+                            f" Val Loss: {val_loss:.6f} "
+                            f"Val Accuracy: {val_accuracy:.4f}"
+                        )
+                    print(msg)
+                else:
+                    print(f"Epoch {epoch} Loss: {avg_loss:.6f}")
 
         return history

@@ -3,9 +3,10 @@ import numpy as np
 
 class ReLU:
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
-        self.input = X
+        if training:
+            self.input = X
 
         return np.maximum(0, X)
 
@@ -20,11 +21,14 @@ class ReLU:
 
 class Sigmoid:
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
-        self.output = 1 / (1 + np.exp(-X))
+        output = 1 / (1 + np.exp(-X))
 
-        return self.output
+        if training:
+            self.output = output
+
+        return output
 
     def backward(self, dvalues):
 
@@ -39,11 +43,14 @@ class Sigmoid:
 
 class Tanh:
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
-        self.output = np.tanh(X)
+        output = np.tanh(X)
 
-        return self.output
+        if training:
+            self.output = output
+
+        return output
 
     def backward(self, dvalues):
 
@@ -57,13 +64,13 @@ class Tanh:
 
 class Softmax:
 
-    def forward(self, X):
+    def forward(self, X, training=True):
 
         exp_values = np.exp(
             X - np.max(X, axis=1, keepdims=True)
         )
 
-        self.output = (
+        output = (
             exp_values
             /
             np.sum(
@@ -73,7 +80,10 @@ class Softmax:
             )
         )
 
-        return self.output
+        if training:
+            self.output = output
+
+        return output
 
     def backward(self, dvalues):
 
