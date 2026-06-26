@@ -40,18 +40,21 @@ model.add(ReLU())
 model.add(Dense(64, 10))
 model.add(Softmax())
 
+
 model.compile(
     loss=SoftmaxCategoricalCrossEntropy(),
-    optimizer=Adam(learning_rate=0.001),
+    optimizer=Adam(
+        learning_rate=0.001
+    ),
     metric=Accuracy()
 )
 
 history = model.fit(
     X_train,
     y_train,
-    epochs=1000,
-    
+    epochs=1000
 )
+
 
 predictions = model.predict(X_test)
 
@@ -68,6 +71,9 @@ print(
     f"Test Accuracy: {accuracy:.4f}"
 )
 
+model.save("digits_model.npz")
+
+model.load("digits_model.npz")
 
 
 index = 0
@@ -81,4 +87,11 @@ plt.title(
     f"Predicted: {predicted_classes[index]}"
 )
 
+plt.show()
+
+
+plt.plot(history["loss"])
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
 plt.show()
