@@ -21,11 +21,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install package
-        run: |
-          pip install -e .
-
-      - name: Install dev dependencies
+      - name: Install package and dev dependencies
         run: |
           pip install -e ".[dev]"
 
@@ -39,10 +35,10 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --cov=Neuralnet
+          pytest --cov=Neuralnet --cov-xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml
           fail_ci_if_error: true
