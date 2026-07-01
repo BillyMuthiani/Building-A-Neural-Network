@@ -1,11 +1,14 @@
 import numpy as np
 
-from Neuralnet.activations import ReLU, Sigmoid
-from Neuralnet.layers import Dense
-from Neuralnet.losses import BinaryCrossEntropy
-from Neuralnet.metrics import Accuracy
-from Neuralnet.model import Sequential
-from Neuralnet.optimizers import SGD
+from Neuralnet import (
+    SGD,
+    Accuracy,
+    BinaryCrossEntropy,
+    Dense,
+    ReLU,
+    Sequential,
+    Sigmoid,
+)
 
 # XOR dataset
 x = np.array([

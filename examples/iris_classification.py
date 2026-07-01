@@ -2,12 +2,15 @@ import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 
-from Neuralnet.activations import ReLU, Softmax
-from Neuralnet.layers import Dense
-from Neuralnet.losses import SoftmaxCategoricalCrossEntropy
-from Neuralnet.metrics import Accuracy
-from Neuralnet.model import Sequential
-from Neuralnet.optimizers import Adam
+from Neuralnet import (
+    Accuracy,
+    Adam,
+    Dense,
+    ReLU,
+    Sequential,
+    Softmax,
+    SoftmaxCategoricalCrossEntropy,
+)
 
 # Load Iris Dataset
 iris = load_iris()
