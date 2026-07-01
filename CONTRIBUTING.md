@@ -15,6 +15,8 @@ Thank you for your interest in contributing to Kronyx! This document provides gu
 ## Development Setup
 
 ```bash
+git clone https://github.com/Kronyx/kronyx.git
+cd kronyx
 pip install -e ".[dev]"
 ```
 
@@ -24,7 +26,8 @@ This installs the package in development mode along with all development depende
 
 ```bash
 pytest tests/ -v
-pytest --cov=kronyx
+ruff check .
+mypy kronyx
 ```
 
 ## Code Style
@@ -33,6 +36,7 @@ This project uses [Ruff](https://docs.astral.sh/ruff/) for linting:
 
 ```bash
 ruff check .
+ruff format .
 ```
 
 ## Type Checking
@@ -42,6 +46,12 @@ This project uses [mypy](https://mypy-lang.org/) for type checking:
 ```bash
 mypy kronyx
 ```
+
+## Documentation
+
+- Add docstrings to all public methods (Google style)
+- Update relevant documentation files in `docs/`
+- Ensure examples in documentation are testable
 
 ## Code of Conduct
 

@@ -4,20 +4,18 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.6.x   | :white_check_mark: |
-| 0.5.x   | :x:                |
+| 0.6.x   | ✅ Yes             |
+| < 0.6   | ❌ No              |
 
 ## Reporting a Vulnerability
 
-Please report security vulnerabilities by emailing security@kronyx.ai.
+Please report security vulnerabilities through [GitHub security advisories](https://github.com/Kronyx/kronyx/security/advisories).
 
-We strive to respond to all reports within 7 days.
+Alternatively, you can open a [GitHub issue](https://github.com/Kronyx/kronyx/issues) with:
 
-## Security Best Practices
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (optional)
 
-When using Kronyx:
-
-- Sanitize input data before training
-- Validate model weights before loading
-- Use environment isolation for model training
-- Keep numpy updated to the latest stable version
+We aim to respond within 7 days and will work with you to understand and address the issue.

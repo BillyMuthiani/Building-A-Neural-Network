@@ -4,9 +4,33 @@ from kronyx.initializers import he_normal, lecun_normal, xavier_uniform
 
 
 class Dense:
+    """Fully connected layer with trainable weights and biases.
 
-    def __init__(self, input_size, output_size, initializer="he_normal", kernel_regularizer=None):
+    Computes output as: output = input @ weights + biases
 
+    Example:
+        >>> layer = Dense(10, 32)
+        >>> x = np.random.randn(5, 10)
+        >>> output = layer.forward(x)
+        >>> output.shape
+        (5, 32)
+    """
+
+    def __init__(
+        self, input_size, output_size, initializer="he_normal", kernel_regularizer=None
+    ):
+        """Initialize the Dense layer.
+
+        Args:
+            input_size: Number of input features.
+            output_size: Number of output neurons.
+            initializer: Weight initialization method. Options: "he_normal",
+                "xavier_uniform", "lecun_normal". Defaults to "he_normal".
+            kernel_regularizer: Optional L2 regularizer instance for weight penalty.
+
+        Raises:
+            ValueError: If initializer is not recognized.
+        """
         init_func = {
             "he_normal": he_normal,
             "xavier_uniform": xavier_uniform,
@@ -25,14 +49,29 @@ class Dense:
         self.regularization_loss = 0.0
 
     def forward(self, x, training=True):
+        """Forward pass through the dense layer.
 
+        Args:
+            x: Input array of shape (batch, input_size).
+            training: If True, cache input for backward pass.
+
+        Returns:
+            Output array of shape (batch, output_size).
+        """
         if training:
             self.input = x
 
         return np.dot(x, self.weights) + self.biases
 
     def backward(self, dvalues):
+        """Backward pass computing gradients.
 
+        Args:
+            dvalues: Gradient from the next layer, shape (batch, output_size).
+
+        Returns:
+            Gradient with respect to inputs, shape (batch, input_size).
+        """
         self.dweights = np.dot(
             self.input.T,
             dvalues
