@@ -56,7 +56,5 @@ nav:
       - Metrics: api/metrics.md
       - Callbacks: api/callbacks.md
       - Serialization: api/serialization.md
-  - Contributing:
-      - Roadmap: ../ROADMAP.md
-      - Changelog: ../CHANGELOG.md
-      - Code of Conduct: ../CODE_OF_CONDUCT.md
+  - Roadmap: roadmap.md
+  - Changelog: changelog.md
