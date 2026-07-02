@@ -16,11 +16,13 @@ A lightweight deep learning framework built from first principles using NumPy. D
 |---------|-------------|
 | **Pure NumPy** | No external ML dependencies, just NumPy |
 | **Clean API** | Keras-like Sequential model interface |
+| **Educational** | Built for learning with visualization and inspection tools |
 | **Layers** | Dense, Conv2D, Flatten, Dropout, BatchNormalization |
 | **Activations** | ReLU, Sigmoid, Tanh, Softmax |
 | **Optimizers** | SGD, Adam with full state management |
 | **Callbacks** | EarlyStopping, ModelCheckpoint, CSVLogger, ReduceLROnPlateau |
 | **Serialization** | Save/load models with .krx format |
+| **Visualization** | `history.plot()`, `model.visualize()`, `model.summary()` |
 
 ## Installation
 

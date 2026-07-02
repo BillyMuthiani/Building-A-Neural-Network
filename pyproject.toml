@@ -24,11 +24,13 @@ keywords = [
     "numpy",
     "machine-learning",
     "framework",
+    "education",
 ]
 
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -37,6 +39,8 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Education",
+    "Typing :: Typed",
 ]
 
 dependencies = [
@@ -50,16 +54,25 @@ dev = [
     "ruff>=0.8",
     "mypy>=1.11.2",
 ]
+plotting = [
+    "matplotlib>=3.8",
+]
+dataframe = [
+    "pandas>=2.2",
+]
 
 [project.urls]
 Homepage = "https://github.com/Kronyx/kronyx"
-Documentation = "https://github.com/Kronyx/kronyx#readme"
+Documentation = "https://kronyx.github.io/kronyx"
 Repository = "https://github.com/Kronyx/kronyx"
 Issues = "https://github.com/Kronyx/kronyx/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["kronyx*"]
+
+[tool.setuptools]
+include-package-data = true
 
 [tool.coverage.run]
 source = ["kronyx"]

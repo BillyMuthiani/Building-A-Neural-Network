@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `from_json(json_string)` - Module-level JSON deserialization
 - `SerializationError` exception class for all serialization failures
 - Cross-platform compatibility (Windows/Linux/macOS)
+- `History.plot()` - Visualize training metrics with matplotlib
+- `History.to_dataframe()` - Convert history to pandas DataFrame
+- `model.count_params()` - Count total trainable parameters
+- `model.layer_summary()` - Get structured layer information
+- `model.visualize()` - ASCII/graphviz architecture diagrams
+- Enhanced `model.summary()` - Professional Keras-style formatting
 
 ### Changed
 

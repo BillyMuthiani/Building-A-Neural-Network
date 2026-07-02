@@ -15,6 +15,7 @@
 - [x] Type annotations (mypy clean)
 - [x] Code style (Ruff clean)
 - [x] 66 unit tests
+- [x] Educational tools (plot, visualize, count_params, layer_summary)
 
 ## Upcoming (v0.7)
 
@@ -22,7 +23,6 @@
 - [ ] Embedding layer for categorical inputs
 - [ ] Learning rate schedulers (StepLR, ExponentialLR)
 - [ ] Model checkpointing improvements
-- [ ] Training history visualization utilities
 
 ## Future (v0.8-v1.0)
 
